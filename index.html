@@ -1,99 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<body>
+  </head>
+  <body>
     <form action="">
-        <input type="text" id="timeA">
-        <input type="text" id="timeB">
-        <button id="exe_btn">calculate</button>
+      <input type="number" id="timeA" />
+      <input type="number" id="timeB" />
+      <button id="exe_btn">calculate</button>
     </form>
-</body>
-<script>
+  </body>
+
+  <script>
     const exeBtn = document.querySelector('#exe_btn');
 
     const formatTime = (input) => {
-    // Convert input to string
-    input = input.toString();
+      input = input.toString();
 
-    // Check if the input has four characters
-    if (input.length === 4) {
-        // Extract hours and minutes
+      if (input.length === 4) {
         let hours = input.slice(0, 2);
         let minutes = input.slice(2);
 
-        // Format the time
-        let formattedTime = hours + ":" + minutes;
+        let formattedTime = hours + ':' + minutes;
 
         return formattedTime;
-    } else {
-        return "Invalid input";
-    }
-}
+      } else {
+        return 'Invalid input';
+      }
+    };
 
     exeBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        const timeA = document.querySelector('#timeA');
-        const timeB = document.querySelector('#timeB');
+      e.preventDefault();
+      const timeA = document.querySelector('#timeA');
+      const timeB = document.querySelector('#timeB');
 
-        alert(calculateTimeGap(formatTime(timeA.value), formatTime(timeB.value)));
-        timeA.value = '';
-        timeB.value = '';
-        timeA.focus();
-    })
+      alert(calculateTimeGap(formatTime(timeA.value), formatTime(timeB.value)));
+      timeA.value = '';
+      timeB.value = '';
+      timeA.focus();
+    });
 
     const calculateTimeGap = (timeA, timeB) => {
-    // Split the time strings into hours and minutes
-    var timeAParts = timeA.split(':');
-    var timeBParts = timeB.split(':');
+      var timeAParts = timeA.split(':');
+      var timeBParts = timeB.split(':');
 
-    // Create Date objects for timeA and timeB
-    var dateA = new Date();
-    dateA.setHours(parseInt(timeAParts[0], 10), parseInt(timeAParts[1], 10), 0); // Set hours and minutes for timeA
-    var dateB = new Date();
-    dateB.setHours(parseInt(timeBParts[0], 10), parseInt(timeBParts[1], 10), 0); // Set hours and minutes for timeB
+      var dateA = new Date();
+      dateA.setHours(
+        parseInt(timeAParts[0], 10),
+        parseInt(timeAParts[1], 10),
+        0
+      );
+      var dateB = new Date();
+      dateB.setHours(
+        parseInt(timeBParts[0], 10),
+        parseInt(timeBParts[1], 10),
+        0
+      );
 
-    // Calculate the time difference in milliseconds
-    var timeDifference = dateB.getTime() - dateA.getTime();
+      var timeDifference = dateB.getTime() - dateA.getTime();
 
-    
-    // Convert the time difference to hours and minutes
-    var hours = Math.floor(timeDifference / (1000 * 60 * 60));
-    var minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
-    if (minutes >= 0 && minutes <= 2) {
+      var hours = Math.floor(timeDifference / (1000 * 60 * 60));
+      var minutes = Math.floor(
+        (timeDifference % (1000 * 60 * 60)) / (1000 * 60)
+      );
+      if (minutes >= 0 && minutes <= 2) {
         minutes = 0;
-    } else if (minutes >= 3 && minutes <= 8) {
+      } else if (minutes >= 3 && minutes <= 8) {
         minutes = 0.1;
-    } else if (minutes >= 9 && minutes <= 14) {
+      } else if (minutes >= 9 && minutes <= 14) {
         minutes = 0.2;
-    } else if (minutes >= 15 && minutes <= 20) {
+      } else if (minutes >= 15 && minutes <= 20) {
         minutes = 0.3;
-    } else if (minutes >= 21 && minutes <= 26) {
+      } else if (minutes >= 21 && minutes <= 26) {
         minutes = 0.4;
-    } else if (minutes >= 27 && minutes <= 32) {
+      } else if (minutes >= 27 && minutes <= 32) {
         minutes = 0.5;
-    } else if (minutes >= 33 && minutes <= 38) {
+      } else if (minutes >= 33 && minutes <= 38) {
         minutes = 0.6;
-    } else if (minutes >= 39 && minutes <= 44) {
+      } else if (minutes >= 39 && minutes <= 44) {
         minutes = 0.7;
-    } else if (minutes >= 45 && minutes <= 50) {
+      } else if (minutes >= 45 && minutes <= 50) {
         minutes = 0.8;
-    } else if (minutes >= 51 && minutes <= 56) {
+      } else if (minutes >= 51 && minutes <= 56) {
         minutes = 0.9;
-    } else if (minutes >= 57 && minutes <= 60) {
+      } else if (minutes >= 57 && minutes <= 60) {
         minutes = 1;
-    }
+      }
 
-    // console.log(hours);
-    // console.log(minutes);
+      // console.log(hours);
+      // console.log(minutes);
 
-    return hours+minutes;
-}
-
-
-
-</script>
+      return hours + minutes;
+    };
+  </script>
 </html>
