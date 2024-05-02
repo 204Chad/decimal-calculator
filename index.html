@@ -4,42 +4,107 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <style>
+      .divide {
+        margin-bottom: 3rem;
+      }
+    </style>
   </head>
   <body>
-    <form action="">
-      <input type="number" id="timeA" />
-      <input type="number" id="timeB" />
-      <button id="exe_btn">calculate</button>
-    </form>
+    <div class="divide">start TTSN: <input type="text" id="TTSN"></div>
+    <div class="divide">
+      Data Input: 
+      <form>
+        <input type="date" id="input_date" />
+        <input type="number" id="time_A" inputmode="numeric" oninput="checkMaxLength(this)" />
+        <input type="number" id="time_B" inputmode="numeric" oninput="checkMaxLength(this)" />
+        <button id="exe_btn">calculate</button>
+      </form>
+
+    </div>
+
+    <div class="divide">
+      Result: 
+      <ul id="result"></ul>
+    </div>
   </body>
 
   <script>
+    let TTSN = 0;
     const exeBtn = document.querySelector('#exe_btn');
+    const dataObj = new Object();
 
     const formatTime = (input) => {
       input = input.toString();
-
-      if (input.length === 4) {
         let hours = input.slice(0, 2);
         let minutes = input.slice(2);
+
+        if (hours > 23 || minutes > 59) {
+          alert('Invalid input');
+          return;
+        }
 
         let formattedTime = hours + ':' + minutes;
 
         return formattedTime;
-      } else {
-        return 'Invalid input';
-      }
     };
+
+    const checkMaxLength = (input) => {
+    var maxLength = 4;
+    if (input.value.length > maxLength) {
+        input.value = input.value.slice(0, maxLength);
+    }
+  }
 
     exeBtn.addEventListener('click', (e) => {
       e.preventDefault();
-      const timeA = document.querySelector('#timeA');
-      const timeB = document.querySelector('#timeB');
+      const timeA = document.querySelector('#time_A');
+      const timeB = document.querySelector('#time_B');
 
-      alert(calculateTimeGap(formatTime(timeA.value), formatTime(timeB.value)));
+      if (TTSN === 0) {
+        TTSN = document.querySelector('#TTSN').value;
+      } else {
+
+      }
+      
+      const selectedDate = document.querySelector('#input_date').value; 
+      const timeGapInDecimal = calculateTimeGap(formatTime(timeA.value), formatTime(timeB.value)); 
+
+      TTSN = (parseFloat(TTSN) + timeGapInDecimal).toFixed(1);
+      console.log(TTSN);
+
+      if (timeGapInDecimal === undefined || selectedDate.length === 0) {
+        alert('Invalid input');
+        return;
+      } else {
+        if (dataObj[selectedDate] === undefined) {
+          dataObj[selectedDate] = {airTime: timeGapInDecimal, ttsn: TTSN};
+      } else {
+        // dataObj[selectedDate] += {airTime: timeGapInDecimal, ttsn: TTSN};
+        dataObj[selectedDate].airTime = dataObj[selectedDate].airTime + timeGapInDecimal;
+        dataObj[selectedDate].ttsn = TTSN;
+      }
+
       timeA.value = '';
       timeB.value = '';
       timeA.focus();
+
+      console.log(dataObj)
+      let outputValue = ``;
+
+      for (i = 0; i < Object.keys(dataObj).length; i++) {
+        const date = Object.keys(dataObj)[i];
+        const airTime = Object.values(dataObj)[i].airTime;
+        const ttsn = Object.values(dataObj)[i].ttsn;
+        outputValue += `<li>Date: ${date} / Air Time: ${airTime} / TTSN: ${ttsn}</li>`;
+        // console.log(outputValue);
+      }
+
+
+      document.querySelector('#result').innerHTML = `${outputValue}`;
+      }
+
+
     });
 
     const calculateTimeGap = (timeA, timeB) => {
@@ -60,6 +125,10 @@
       );
 
       var timeDifference = dateB.getTime() - dateA.getTime();
+
+      if (timeDifference < 0) {
+        return;
+      }
 
       var hours = Math.floor(timeDifference / (1000 * 60 * 60));
       var minutes = Math.floor(
@@ -89,8 +158,6 @@
         minutes = 1;
       }
 
-      // console.log(hours);
-      // console.log(minutes);
 
       return hours + minutes;
     };
