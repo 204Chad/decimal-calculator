@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Decimal Calculator</title>
     <style>
       .divide {
         margin-bottom: 3rem;
@@ -19,22 +19,36 @@
     </style>
   </head>
   <body>
-    <div class="divide">start TTSN: <input type="text" id="TTSN" value='0'></div>
+    <div class="divide">
+      start TTSN: <input type="text" id="TTSN" value="12345.1" />
+      <!-- start TTSN: <input type="text" id="TTSN" value="0" /> -->
+    </div>
     <!-- <div class="divide">start TTSN: <input type="text" id="TTSN"></div> -->
     <div class="divide">
-      Data Input: 
+      Data Input:
       <form>
         <!-- <input type="date" id="input_date" /> -->
-        <input type="date" id="input_date" value="2024-01-01"/>
-        <input type="number" id="time_A" inputmode="numeric" oninput="checkMaxLength(this)" />
-        <input type="number" id="time_B" inputmode="numeric" oninput="checkMaxLength(this)" />
+        <input type="date" id="input_date" value="2024-04-01" />
+        <input
+          type="number"
+          id="time_A"
+          inputmode="numeric"
+          oninput="checkMaxLength(this)"
+          value="1000"
+        />
+        <input
+          type="number"
+          id="time_B"
+          inputmode="numeric"
+          oninput="checkMaxLength(this)"
+          value="1233"
+        />
         <button id="exe_btn">calculate</button>
       </form>
-
     </div>
 
     <div class="divide">
-      Result: 
+      Result:
       <ul id="result"></ul>
     </div>
   </body>
@@ -46,40 +60,42 @@
 
     const formatTime = (input) => {
       input = input.toString();
-        let hours = input.slice(0, 2);
-        let minutes = input.slice(2);
+      let hours = input.slice(0, 2);
+      let minutes = input.slice(2);
 
-        if (hours > 23 || minutes > 59) {
-          alert('Invalid input');
-          return;
-        }
+      if (hours > 23 || minutes > 59) {
+        alert('Invalid input');
+        return;
+      }
 
-        let formattedTime = hours + ':' + minutes;
+      let formattedTime = hours + ':' + minutes;
 
-        return formattedTime;
+      return formattedTime;
     };
 
     const checkMaxLength = (input) => {
-    var maxLength = 4;
-    if (input.value.length > maxLength) {
+      var maxLength = 4;
+      if (input.value.length > maxLength) {
         input.value = input.value.slice(0, maxLength);
-    }
-  }
+      }
+    };
 
     exeBtn.addEventListener('click', (e) => {
       e.preventDefault();
-
-      const timeA = document.querySelector('#time_A');
-      const timeB = document.querySelector('#time_B');
 
       if (TTSN === 0) {
         TTSN = document.querySelector('#TTSN').value;
       }
 
-      const selectedDate = document.querySelector('#input_date').value; 
-      const timeGapInDecimal = calculateTimeGap(formatTime(timeA.value), formatTime(timeB.value)); 
+      const timeA = document.querySelector('#time_A');
+      const timeB = document.querySelector('#time_B');
 
-      TTSN = (parseFloat(TTSN) + timeGapInDecimal).toFixed(1);
+      const timeGapInDecimal = calculateTimeGap(
+        formatTime(timeA.value),
+        formatTime(timeB.value)
+      );
+
+      const selectedDate = document.querySelector('#input_date').value;
 
       if (timeGapInDecimal === undefined || selectedDate.length === 0) {
         alert('Invalid input');
@@ -89,29 +105,40 @@
       if (!document.querySelector('#TTSN').value) {
         alert('enter TTSN');
         return;
-      } 
+      }
 
       if (timeA.value.length < 4 || timeB.value.length < 4) {
-        alert('Invalid input')
+        alert('Invalid input');
         return;
       }
 
+      TTSN = (parseFloat(TTSN) + timeGapInDecimal).toFixed(1);
+      // console.log(TTSN);
+
       if (dataObj[selectedDate] === undefined) {
         dataObj[selectedDate] = [];
-        dataObj[selectedDate].push({totalAirTime: timeGapInDecimal, ttsn: TTSN});        
+        dataObj[selectedDate].push({
+          totalAirTime: timeGapInDecimal,
+          ttsn: TTSN,
+        });
       } else {
-        console.log('totalAir: ', dataObj[selectedDate][0].totalAirTime);
-        console.log('decial: ', timeGapInDecimal);
-        dataObj[selectedDate][0].totalAirTime = (dataObj[selectedDate][0].totalAirTime + timeGapInDecimal).toFixed(1);
+        // console.log('totalAir: ', dataObj[selectedDate][0].totalAirTime);
+        // console.log('decial: ', timeGapInDecimal);
+
+        dataObj[selectedDate][0].totalAirTime = (
+          parseFloat(dataObj[selectedDate][0].totalAirTime) +
+          parseFloat(timeGapInDecimal)
+        ).toFixed(1);
         dataObj[selectedDate][0].ttsn = TTSN;
 
-        console.log(typeof dataObj[selectedDate][0].totalAirTime);
-        console.log(typeof timeGapInDecimal);
+        // console.log(typeof dataObj[selectedDate][0].totalAirTime);
+        // console.log(typeof timeGapInDecimal);
       }
-      dataObj[selectedDate].push({up: timeA.value, down: timeB.value, airTime: timeGapInDecimal});
-
-
-      // console.log(dataObj);
+      dataObj[selectedDate].push({
+        up: timeA.value,
+        down: timeB.value,
+        airTime: timeGapInDecimal,
+      });
 
       timeA.value = '';
       timeB.value = '';
@@ -119,31 +146,32 @@
 
       let outputValue = ``;
 
-
       for (let i = 0; i < Object.keys(dataObj).length; i++) {
-        
         let detailInfo = ``;
         let date = Object.keys(dataObj)[i];
         let totalAirTime = Object.values(dataObj)[i][0].totalAirTime;
         let ttsn = Object.values(dataObj)[i][0].ttsn;
 
-
         console.log(dataObj[date]);
 
         for (let j = 1; j < dataObj[date].length; j++) {
-          detailInfo += `<li class="detail_info">Flight Time: ${(dataObj[date][j].up).slice(0, 2)}:${(dataObj[date][j].up).slice(2)} to ${(dataObj[date][j].down).slice(0, 2)}:${(dataObj[date][j].down).slice(2)} Air Time: ${dataObj[date][j].airTime}</li>`
-          
+          // detailInfo += `<li class="detail_info">Flight Time: ${dataObj[date][j].up.slice(0, 2)}:${dataObj[date][j].up.slice(2)} to ${dataObj[date][j].down.slice(0, 2)}:${dataObj[date][j].down.slice(2)} Air Time: ${dataObj[date][j].airTime}</li>`;
+
+          detailInfo += `<div>Flight Time: <input type="text" value="${dataObj[
+            date
+          ][j].up.slice(0, 2)}:${dataObj[date][j].up.slice(2)}"> to 
+          <input type="text" value="${dataObj[date][j].down.slice(
+            0,
+            2
+          )}:${dataObj[date][j].down.slice(2)}"> 
+          Air Time: ${dataObj[date][j].airTime}
+          <button>update ${j}</button></div>`;
         }
 
         outputValue += `${detailInfo}<li class="amount_info">Date: ${date} / Total Air Time: ${totalAirTime} / TTSN: ${ttsn}</li>`;
-
       }
 
-
       document.querySelector('#result').innerHTML = `${outputValue}`;
-      
-
-
     });
 
     const calculateTimeGap = (timeA, timeB) => {
@@ -165,13 +193,9 @@
 
       var timeDifference = dateB.getTime() - dateA.getTime();
 
-      
       if (timeDifference < 0) {
-        timeDifference = timeDifference +  86400000;
+        timeDifference = timeDifference + 86400000;
       }
-
- 
-
 
       var hours = Math.floor(timeDifference / (1000 * 60 * 60));
       var minutes = Math.floor(
@@ -200,7 +224,6 @@
       } else if (minutes >= 57 && minutes <= 60) {
         minutes = 1;
       }
-
 
       return hours + minutes;
     };
