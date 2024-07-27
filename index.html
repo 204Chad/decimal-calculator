@@ -195,7 +195,10 @@
   </head>
   <body>
     <div class="divide">
-      <div class="title">TTSN: <input type="text" id="TTSN" value="0" /></div>
+      <div class="title">
+        TTSN: <input type="text" id="TTSN" value="0" />
+        <button onclick="updateTTSN()">Update</button>
+      </div>
     </div>
     <div class="divide">
       <div class="title">
@@ -345,6 +348,11 @@
       parseData(dataObj, TTSN);
     };
 
+    const deleteData = (date, index) => {
+      dataObj[date].splice(index, 1);
+      parseData(dataObj, TTSN);
+    };
+
     // obj 데이터로 HTML DOM 생성
     const parseData = (dataObj, TTSN) => {
       let resultArray = [];
@@ -392,6 +400,7 @@
             </div>
             <div>
               <button onclick="updateData(this, '${date}', ${j})">Update</button>
+              <button onclick="deleteData('${date}', ${j})">Delete</button>
             </div>
           </div>`;
           totalAirTime = totalAirTime + dataObj[sortedDates[i]][j].airTime;
