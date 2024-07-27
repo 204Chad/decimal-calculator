@@ -3,52 +3,230 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+      rel="stylesheet"
+    />
     <title>Decimal Calculator</title>
     <style>
+      html,
+      body,
+      div,
+      span,
+      applet,
+      object,
+      iframe,
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6,
+      p,
+      blockquote,
+      pre,
+      a,
+      abbr,
+      acronym,
+      address,
+      big,
+      cite,
+      code,
+      del,
+      dfn,
+      em,
+      img,
+      ins,
+      kbd,
+      q,
+      s,
+      samp,
+      small,
+      strike,
+      strong,
+      sub,
+      sup,
+      tt,
+      var,
+      b,
+      u,
+      i,
+      center,
+      dl,
+      dt,
+      dd,
+      ol,
+      ul,
+      li,
+      fieldset,
+      form,
+      label,
+      legend,
+      table,
+      caption,
+      tbody,
+      tfoot,
+      thead,
+      tr,
+      th,
+      td,
+      article,
+      aside,
+      canvas,
+      details,
+      embed,
+      figure,
+      figcaption,
+      footer,
+      header,
+      hgroup,
+      menu,
+      nav,
+      output,
+      ruby,
+      section,
+      summary,
+      time,
+      mark,
+      audio,
+      video {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        font-size: 100%;
+        font: inherit;
+        vertical-align: baseline;
+      }
+
+      /* HTML5 display-role reset for older browsers */
+      article,
+      aside,
+      details,
+      figcaption,
+      figure,
+      footer,
+      header,
+      hgroup,
+      menu,
+      nav,
+      section {
+        display: block;
+      }
+
+      body {
+        line-height: 1;
+      }
+
+      ol,
+      ul {
+        list-style: none;
+      }
+
+      blockquote,
+      q {
+        quotes: none;
+      }
+
+      blockquote:before,
+      blockquote:after,
+      q:before,
+      q:after {
+        content: '';
+        content: none;
+      }
+
+      table {
+        border-collapse: collapse;
+        border-spacing: 0;
+      }
+
+      body {
+        font-family: 'Roboto', sans-serif;
+        font-weight: 400;
+        font-style: normal;
+        font-size: 1.2rem;
+      }
+
+      input,
+      button {
+        text-align: center;
+        width: 7rem;
+        font-size: 1.2rem;
+      }
+
       .divide {
-        margin-bottom: 3rem;
+        margin-bottom: 2rem;
+      }
+
+      .title {
+        margin: 1rem;
+      }
+
+      .calendar {
+        width: 10rem;
       }
 
       .amount_info {
+        display: inline-block;
         background-color: black;
         color: white;
-        margin-bottom: 1rem;
+        margin: 1rem;
         font-weight: bold;
-        font-size: 1.2rem;
+        font-size: 1.5rem;
+        padding: 0.5rem;
+      }
+
+      .row {
+        display: flex;
+        align-items: center;
+      }
+
+      .row div {
+        margin: 0.5rem 1rem;
+      }
+
+      #result {
+        height: 80vh;
+        overflow: auto;
       }
     </style>
   </head>
   <body>
     <div class="divide">
-      start TTSN: <input type="text" id="TTSN" value="12345.1" />
-      <!-- start TTSN: <input type="text" id="TTSN" value="0" /> -->
+      <div class="title">TTSN: <input type="text" id="TTSN" value="0" /></div>
     </div>
-    <!-- <div class="divide">start TTSN: <input type="text" id="TTSN"></div> -->
     <div class="divide">
-      Data Input:
-      <form>
-        <!-- <input type="date" id="input_date" /> -->
-        <input type="date" id="input_date" value="2024-04-01" />
-        <input
-          type="number"
-          id="time_A"
-          inputmode="numeric"
-          oninput="checkMaxLength(this)"
-          value="1000"
-        />
-        <input
-          type="number"
-          id="time_B"
-          inputmode="numeric"
-          oninput="checkMaxLength(this)"
-          value="1233"
-        />
-        <button id="exe_btn">calculate</button>
-      </form>
+      <div class="title">
+        Data Input:
+        <form style="display: inline">
+          <input
+            class="calendar"
+            type="date"
+            id="input_date"
+            value="2024-04-01"
+          />
+          <input
+            type="number"
+            id="time_A"
+            inputmode="numeric"
+            oninput="checkInputDigits(this)"
+            value="1048"
+          />
+          <input
+            type="number"
+            id="time_B"
+            inputmode="numeric"
+            oninput="checkInputDigits(this)"
+            value="1233"
+          />
+          <button id="exe_btn">Calculate</button>
+        </form>
+      </div>
     </div>
 
     <div class="divide">
-      Result:
       <ul id="result"></ul>
     </div>
   </body>
@@ -58,147 +236,64 @@
     const exeBtn = document.querySelector('#exe_btn');
     const dataObj = new Array();
 
-    const formatTime = (input) => {
-      input = input.toString();
-      let hours = input.slice(0, 2);
-      let minutes = input.slice(2);
-
-      if (hours > 23 || minutes > 59) {
-        alert('Invalid input');
-        return;
-      }
-
-      let formattedTime = hours + ':' + minutes;
-
-      return formattedTime;
+    const errorMessage = (message) => {
+      alert(`error: ${message}`);
     };
 
-    const checkMaxLength = (input) => {
-      var maxLength = 4;
+    // enter 4 digit number convert to time format like 1000 > 10:00
+    const formatTime = (input) => {
+      input = input.toString();
+      const hours = input.slice(0, 2);
+      const minutes = input.slice(2);
+      return hours + ':' + minutes;
+    };
+
+    // 숫자 4자리강제, 24시 초과, 59분 초과 입력불가
+    const checkInputDigits = (input) => {
+      // 숫자 자릿수 4자리 강제
+      const maxLength = 4;
       if (input.value.length > maxLength) {
         input.value = input.value.slice(0, maxLength);
       }
+
+      let hourPart = input.value.slice(0, 2);
+      let minutePart = input.value.slice(2, 4);
+
+      // 숫자 앞 두자리가 24보다 클경우
+      if (hourPart > 24) {
+        hourPart = 24;
+      }
+      if (minutePart > 59) {
+        minutePart = 59;
+      }
+
+      input.value = `${hourPart}${minutePart}`;
     };
 
-    exeBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-
-      if (TTSN === 0) {
-        TTSN = document.querySelector('#TTSN').value;
-      }
-
-      const timeA = document.querySelector('#time_A');
-      const timeB = document.querySelector('#time_B');
-
-      const timeGapInDecimal = calculateTimeGap(
-        formatTime(timeA.value),
-        formatTime(timeB.value)
-      );
-
-      const selectedDate = document.querySelector('#input_date').value;
-
-      if (timeGapInDecimal === undefined || selectedDate.length === 0) {
-        alert('Invalid input');
-        return;
-      }
-
-      if (!document.querySelector('#TTSN').value) {
-        alert('enter TTSN');
-        return;
-      }
-
-      if (timeA.value.length < 4 || timeB.value.length < 4) {
-        alert('Invalid input');
-        return;
-      }
-
-      TTSN = (parseFloat(TTSN) + timeGapInDecimal).toFixed(1);
-      // console.log(TTSN);
-
-      if (dataObj[selectedDate] === undefined) {
-        dataObj[selectedDate] = [];
-        dataObj[selectedDate].push({
-          totalAirTime: timeGapInDecimal,
-          ttsn: TTSN,
-        });
-      } else {
-        // console.log('totalAir: ', dataObj[selectedDate][0].totalAirTime);
-        // console.log('decial: ', timeGapInDecimal);
-
-        dataObj[selectedDate][0].totalAirTime = (
-          parseFloat(dataObj[selectedDate][0].totalAirTime) +
-          parseFloat(timeGapInDecimal)
-        ).toFixed(1);
-        dataObj[selectedDate][0].ttsn = TTSN;
-
-        // console.log(typeof dataObj[selectedDate][0].totalAirTime);
-        // console.log(typeof timeGapInDecimal);
-      }
-      dataObj[selectedDate].push({
-        up: timeA.value,
-        down: timeB.value,
-        airTime: timeGapInDecimal,
-      });
-
-      timeA.value = '';
-      timeB.value = '';
-      timeA.focus();
-
-      let outputValue = ``;
-
-      for (let i = 0; i < Object.keys(dataObj).length; i++) {
-        let detailInfo = ``;
-        let date = Object.keys(dataObj)[i];
-        let totalAirTime = Object.values(dataObj)[i][0].totalAirTime;
-        let ttsn = Object.values(dataObj)[i][0].ttsn;
-
-        console.log(dataObj[date]);
-
-        for (let j = 1; j < dataObj[date].length; j++) {
-          // detailInfo += `<li class="detail_info">Flight Time: ${dataObj[date][j].up.slice(0, 2)}:${dataObj[date][j].up.slice(2)} to ${dataObj[date][j].down.slice(0, 2)}:${dataObj[date][j].down.slice(2)} Air Time: ${dataObj[date][j].airTime}</li>`;
-
-          detailInfo += `<div>Flight Time: <input type="text" value="${dataObj[
-            date
-          ][j].up.slice(0, 2)}:${dataObj[date][j].up.slice(2)}"> to 
-          <input type="text" value="${dataObj[date][j].down.slice(
-            0,
-            2
-          )}:${dataObj[date][j].down.slice(2)}"> 
-          Air Time: ${dataObj[date][j].airTime}
-          <button>update ${j}</button></div>`;
-        }
-
-        outputValue += `${detailInfo}<li class="amount_info">Date: ${date} / Total Air Time: ${totalAirTime} / TTSN: ${ttsn}</li>`;
-      }
-
-      document.querySelector('#result').innerHTML = `${outputValue}`;
-    });
-
+    // decimal 변경로직
     const calculateTimeGap = (timeA, timeB) => {
-      var timeAParts = timeA.split(':');
-      var timeBParts = timeB.split(':');
+      const setHoursByFunction = (dateInfo, timeParts) => {
+        dateInfo.setHours(
+          parseInt(timeParts[0], 10),
+          parseInt(timeParts[1], 10),
+          0
+        );
+      };
 
-      var dateA = new Date();
-      dateA.setHours(
-        parseInt(timeAParts[0], 10),
-        parseInt(timeAParts[1], 10),
-        0
-      );
-      var dateB = new Date();
-      dateB.setHours(
-        parseInt(timeBParts[0], 10),
-        parseInt(timeBParts[1], 10),
-        0
-      );
+      const dateA = new Date();
+      const dateB = new Date();
 
-      var timeDifference = dateB.getTime() - dateA.getTime();
+      setHoursByFunction(dateA, timeA.split(':'));
+      setHoursByFunction(dateB, timeB.split(':'));
+
+      let timeDifference = dateB.getTime() - dateA.getTime();
 
       if (timeDifference < 0) {
         timeDifference = timeDifference + 86400000;
       }
 
-      var hours = Math.floor(timeDifference / (1000 * 60 * 60));
-      var minutes = Math.floor(
+      let hours = Math.floor(timeDifference / (1000 * 60 * 60));
+      let minutes = Math.floor(
         (timeDifference % (1000 * 60 * 60)) / (1000 * 60)
       );
       if (minutes >= 0 && minutes <= 2) {
@@ -227,5 +322,135 @@
 
       return hours + minutes;
     };
+
+    // HTML input 초기화
+    const resetInputs = (timeA, timeB) => {
+      timeA.value = '';
+      timeB.value = '';
+      timeA.focus();
+    };
+
+    // 입력된 데이터 업데이트
+    const updateData = (selected, date, index) => {
+      const shortCut = selected.closest('.row').children[0];
+
+      const formettedTimeA = shortCut.children[0].value;
+      const formettedTimeB = shortCut.children[1].value;
+      const timeGapInDecimal = calculateTimeGap(formettedTimeA, formettedTimeB);
+
+      dataObj[date][index].up = formettedTimeA;
+      dataObj[date][index].down = formettedTimeB;
+      dataObj[date][index].airTime = timeGapInDecimal;
+
+      parseData(dataObj, TTSN);
+    };
+
+    // obj 데이터로 HTML DOM 생성
+    const parseData = (dataObj, TTSN) => {
+      let resultArray = [];
+      let outputValue = '';
+      TTSN = parseFloat(TTSN);
+
+      console.log(typeof TTSN, TTSN);
+
+      // 날짜 정렬
+      const sortedDates = Object.keys(dataObj).sort((a, b) => {
+        return a.localeCompare(b);
+      });
+
+      for (let i = 0; i < sortedDates.length; i++) {
+        if (resultArray[sortedDates[i]] === undefined)
+          resultArray[sortedDates[i]] = [];
+
+        // 같은날짜 내의 up time 기준으로 시간정렬
+        const sortedFlightsTime = dataObj[sortedDates[i]].sort((a, b) => {
+          return a.up.localeCompare(b.up);
+        });
+
+        const date = sortedDates[i];
+        let totalAirTime = 0;
+
+        let detailInfo = '';
+        for (let j = 0; j < sortedFlightsTime.length; j++) {
+          const upTime = sortedFlightsTime[j].up;
+          const downTime = sortedFlightsTime[j].down;
+          TTSN += dataObj[date][j].airTime;
+          sortedFlightsTime[j].timeDue = TTSN;
+
+          detailInfo += `
+          <div class='row'>
+            <div>
+              Flight Time:
+              <input id="${date}_${j}_up" type="text" value="${upTime}"> to
+              <input id="${date}_${j}_down" type="text" value="${downTime}">
+            </div>
+            <div>
+              Air Time: ${dataObj[date][j].airTime}
+            </div>
+            <div>
+              Time due: ${dataObj[date][j].timeDue}
+            </div>
+            <div>
+              <button onclick="updateData(this, '${date}', ${j})">Update</button>
+            </div>
+          </div>`;
+          totalAirTime = totalAirTime + dataObj[sortedDates[i]][j].airTime;
+        }
+        resultArray[sortedDates[i]].push({ totalAirTime, TTSN });
+        outputValue += `${detailInfo}<li class="amount_info">Date: ${date} / Total Air Time: ${totalAirTime} / TTSN: ${TTSN}</li>`;
+      }
+      document.querySelector('#result').innerHTML = outputValue;
+    };
+
+    exeBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (TTSN === 0) TTSN = document.querySelector('#TTSN').value;
+
+      const selectedDate = document.querySelector('#input_date').value;
+
+      const timeA = document.querySelector('#time_A');
+      const timeB = document.querySelector('#time_B');
+
+      const formettedTimeA = formatTime(timeA.value);
+      const formettedTimeB = formatTime(timeB.value);
+
+      const timeGapInDecimal = calculateTimeGap(formettedTimeA, formettedTimeB);
+
+      // 시간 미입력시 정지
+      if (timeGapInDecimal === undefined || isNaN(timeGapInDecimal)) {
+        errorMessage('hours or minutes is empty');
+        return;
+      }
+
+      // 날짜 미선택시 정지
+      if (selectedDate.length !== 10) {
+        errorMessage('date value is empty');
+        return;
+      }
+
+      // TTSN 미입력시 정지
+      if (!document.querySelector('#TTSN').value) {
+        alert('TTSN value is empty');
+        return;
+      }
+
+      if (formettedTimeA.length !== 5 || formettedTimeB.length !== 5) {
+        errorMessage('Time format has wrong');
+        return;
+      }
+
+      // 선택된날짜 데이터에 데이터 추가
+      if (dataObj[selectedDate] === undefined) dataObj[selectedDate] = [];
+
+      dataObj[selectedDate].push({
+        up: formettedTimeA,
+        down: formettedTimeB,
+        airTime: timeGapInDecimal,
+      });
+
+      resetInputs(timeA, timeB);
+      parseData(dataObj, TTSN);
+      return;
+    });
   </script>
 </html>
