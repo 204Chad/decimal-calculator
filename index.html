@@ -204,25 +204,20 @@
       <div class="title">
         Data Input:
         <form style="display: inline">
-          <input
-            class="calendar"
-            type="date"
-            id="input_date"
-            value="2024-04-01"
-          />
+          <input class="calendar" type="date" id="input_date" value="" />
           <input
             type="number"
             id="time_A"
             inputmode="numeric"
             oninput="checkInputDigits(this)"
-            value="1048"
+            value=""
           />
           <input
             type="number"
             id="time_B"
             inputmode="numeric"
             oninput="checkInputDigits(this)"
-            value="1233"
+            value=""
           />
           <button id="exe_btn">Calculate</button>
         </form>
@@ -242,6 +237,11 @@
     const errorMessage = (message) => {
       alert(`error: ${message}`);
     };
+
+    // pick automatlly today date
+    document.querySelector('.calendar').value = new Date()
+      .toISOString()
+      .split('T')[0];
 
     // enter 4 digit number convert to time format like 1000 > 10:00
     const formatTime = (input) => {
@@ -323,7 +323,8 @@
         minutes = 1;
       }
 
-      return hours + minutes;
+      const result = hours + minutes;
+      return parseFloat(result.toFixed(1));
     };
 
     // HTML input 초기화
@@ -353,13 +354,16 @@
       parseData(dataObj, TTSN);
     };
 
+    const updateTTSN = () => {
+      TTSN = document.querySelector('#TTSN').value;
+      parseData(dataObj, TTSN);
+    };
+
     // obj 데이터로 HTML DOM 생성
     const parseData = (dataObj, TTSN) => {
       let resultArray = [];
       let outputValue = '';
       TTSN = parseFloat(TTSN);
-
-      console.log(typeof TTSN, TTSN);
 
       // 날짜 정렬
       const sortedDates = Object.keys(dataObj).sort((a, b) => {
@@ -382,7 +386,7 @@
         for (let j = 0; j < sortedFlightsTime.length; j++) {
           const upTime = sortedFlightsTime[j].up;
           const downTime = sortedFlightsTime[j].down;
-          TTSN += dataObj[date][j].airTime;
+          TTSN += parseFloat(dataObj[date][j].airTime.toFixed(1));
           sortedFlightsTime[j].timeDue = TTSN;
 
           detailInfo += `
@@ -406,7 +410,9 @@
           totalAirTime = totalAirTime + dataObj[sortedDates[i]][j].airTime;
         }
         resultArray[sortedDates[i]].push({ totalAirTime, TTSN });
-        outputValue += `${detailInfo}<li class="amount_info">Date: ${date} / Total Air Time: ${totalAirTime} / TTSN: ${TTSN}</li>`;
+        outputValue += `${detailInfo}<li class="amount_info">Date: ${date} / Total Air Time: ${parseFloat(
+          totalAirTime.toFixed(1)
+        )} / TTSN: ${parseFloat(TTSN.toFixed(1))}</li>`;
       }
       document.querySelector('#result').innerHTML = outputValue;
     };
