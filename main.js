@@ -6,6 +6,23 @@ const errorMessage = (message) => {
   alert(`error: ${message}`);
 };
 
+// next day button
+document.querySelector('#next_day_btn').addEventListener('click', (e) => {
+  e.preventDefault();
+  const currentDate = document.querySelector('#input_date').value;
+  const initialDate = new Date(currentDate);
+
+  const nextDay = new Date(initialDate);
+  nextDay.setDate(initialDate.getDate() + 1);
+
+  const date = new Date(nextDay.toUTCString());
+  const formattedDate = date.toISOString().split('T')[0];
+
+  console.log(formattedDate);
+  document.querySelector('#input_date').value = formattedDate;
+  document.querySelector('#time_A').focus();
+});
+
 // pick automatlly today date
 document.querySelector('.calendar').value = new Date()
   .toISOString()
@@ -125,6 +142,12 @@ const updateTTSN = () => {
   parseData(dataObj, TTSN);
 };
 
+// scroll to bottom when submit datas
+const scrollToBottom = () => {
+  const resultDOM = document.querySelector('#result');
+  resultDOM.scrollTo(0, resultDOM.scrollHeight);
+};
+
 // obj 데이터로 HTML DOM 생성
 const parseData = (dataObj, TTSN) => {
   let resultArray = [];
@@ -153,6 +176,7 @@ const parseData = (dataObj, TTSN) => {
       const upTime = sortedFlightsTime[j].up;
       const downTime = sortedFlightsTime[j].down;
       TTSN += parseFloat(dataObj[date][j].airTime.toFixed(1));
+      TTSN = parseFloat(TTSN.toFixed(1));
       sortedFlightsTime[j].timeDue = TTSN;
 
       detailInfo += `
@@ -181,6 +205,7 @@ const parseData = (dataObj, TTSN) => {
     )} / TTSN: ${parseFloat(TTSN.toFixed(1))}</li>`;
   }
   document.querySelector('#result').innerHTML = outputValue;
+  scrollToBottom();
 };
 
 exeBtn.addEventListener('click', (e) => {

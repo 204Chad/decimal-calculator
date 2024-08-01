@@ -11,7 +11,7 @@
     />
     <link rel="stylesheet" href="style.css" />
     <title>Decimal Calculator</title>
-    <!-- <script src="main.js" defer></script> -->
+    <!-- <script src="app.js" defer></script> -->
     <script src="main.js" defer></script>
   </head>
   <body>
@@ -26,6 +26,7 @@
         Data Input:
         <form style="display: inline">
           <input class="calendar" type="date" id="input_date" value="" />
+          <button type="button" id="next_day_btn">next day</button>
           <input
             type="number"
             id="time_A"
@@ -40,7 +41,7 @@
             oninput="checkInputDigits(this)"
             value=""
           />
-          <button id="exe_btn">Calculate</button>
+          <button type="submit" id="exe_btn">Calculate</button>
         </form>
       </div>
     </div>
