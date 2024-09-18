@@ -1,0 +1,510 @@
+/* Reset and global styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  line-height: 1.6;
+  background-color: #f4f4f9;
+  color: #333;
+  padding: 20px;
+}
+
+input,
+button {
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+/* Container for sections */
+.divide {
+  margin-bottom: 20px;
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Title and form styles */
+.title {
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+.title input[type='text'],
+input[type='number'],
+input[type='date'] {
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-left: 10px;
+}
+
+button {
+  padding: 6px 12px;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-left: 10px;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+form {
+  display: inline;
+}
+
+/* Result and row styles */
+#result {
+  list-style: none;
+  padding: 0;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.row input[type='text'] {
+  width: 80px;
+  padding: 5px;
+  margin: 0 5px;
+  text-align: center;
+}
+
+.amount_info {
+  padding: 10px;
+  font-weight: bold;
+  border-top: 1px solid #ddd;
+  background-color: #f9f9f9;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  button {
+    margin-top: 10px;
+  }
+}
+
+/* 줄바꿈을 위한 스타일 */
+.input-group {
+  display: flex;
+  gap: 10px; /* 요소 간의 간격 */
+  margin-bottom: 10px; /* 각 그룹 간의 간격 */
+}
+
+.calendar {
+  width: 160px; /* 날짜 입력 필드 너비 */
+}
+
+#time_A,
+#time_B {
+  width: 80px; /* 시간 입력 필드 너비 */
+}
+
+button {
+  padding: 6px 12px;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* 기본 레이아웃 */
+.input-group {
+  display: flex;
+  gap: 10px; /* 요소 간의 간격 */
+  margin-bottom: 10px; /* 각 그룹 간의 간격 */
+}
+
+.calendar {
+  width: 160px; /* 날짜 입력 필드 너비 */
+}
+
+#time_A,
+#time_B {
+  width: 80px; /* 시간 입력 필드 너비 */
+}
+
+button {
+  padding: 6px 12px;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* 768px 이하에서 적용되는 모바일 환경 */
+@media (max-width: 768px) {
+  /* .input-group의 요소들이 세로로 쌓이도록 변경 */
+  .input-group {
+    flex-direction: column;
+    align-items: flex-start; /* 왼쪽 정렬 */
+    width: 100%; /* 전체 화면 너비 사용 */
+  }
+
+  /* 입력 필드와 버튼 크기 조정 */
+  .calendar,
+  #time_A,
+  #time_B {
+    width: 100%; /* 화면에 맞게 넓이 조정 */
+  }
+
+  button {
+    width: 100%; /* 버튼도 화면에 꽉 차도록 */
+  }
+}
+
+/* 480px 이하에서 추가 스타일 */
+@media (max-width: 480px) {
+  .calendar {
+    font-size: 14px; /* 글씨 크기 줄이기 */
+  }
+
+  button {
+    font-size: 14px; /* 작은 화면에서 버튼 텍스트 크기 조정 */
+    padding: 8px 10px; /* 버튼의 패딩 줄이기 */
+  }
+}
+
+/* 기본 스타일 */
+#result {
+  list-style-type: none; /* 불필요한 리스트 스타일 제거 */
+  padding: 0;
+}
+
+/* 각 항목 간 간격 조절 */
+.row {
+  margin-bottom: 15px;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Air Time과 Time Due 강조 */
+.row div {
+  margin: 5px 0;
+}
+
+/* Air Time 강조 */
+.row div:nth-child(2) {
+  font-weight: bold; /* 굵게 */
+  color: #ff5722; /* 강조 색상 (주황색) */
+  font-size: 1.2rem; /* 폰트 크기 확대 */
+}
+
+/* Time Due 강조 */
+.row div:nth-child(3) {
+  font-weight: bold; /* 굵게 */
+  color: #007bff; /* 강조 색상 (파란색) */
+  font-size: 1.2rem; /* 폰트 크기 확대 */
+}
+
+/* 버튼 스타일 개선 */
+button {
+  padding: 5px 10px;
+  background-color: #28a745;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+  margin-right: 5px; /* 버튼 사이 여백 */
+}
+
+button:hover {
+  background-color: #218838;
+}
+
+.amount_info {
+  font-size: 1rem;
+  color: #555;
+}
+
+/* 기본 스타일 */
+#result {
+  list-style-type: none; /* 불필요한 리스트 스타일 제거 */
+  padding: 0;
+}
+
+/* 각 항목 간 간격 조절 */
+.row {
+  margin-bottom: 15px;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Air Time 강조 */
+.row div:nth-child(2) {
+  font-weight: bold;
+  color: #ff5722;
+  font-size: 1.1rem;
+}
+
+/* Time Due 강조 */
+.row div:nth-child(3) {
+  font-weight: bold;
+  color: #007bff;
+  font-size: 1.1rem;
+}
+
+/* Flight Time의 input box 스타일 */
+.row input[type='text'] {
+  width: 70px; /* input 박스의 일관된 너비 */
+  padding: 5px;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  text-align: center;
+  margin: 0 5px; /* 양쪽 간격 일정하게 */
+}
+
+/* 버튼 스타일 개선 */
+button {
+  padding: 5px 10px;
+  background-color: #28a745;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+  margin-right: 5px;
+}
+
+button:hover {
+  background-color: #218838;
+}
+
+/* 버튼 크기 조정 - 모바일 환경에서 */
+@media (max-width: 768px) {
+  button {
+    padding: 3px 6px; /* 모바일에서 버튼 크기를 줄임 */
+    font-size: 0.9rem;
+  }
+
+  /* Flight Time input box도 모바일 환경에 맞춰 크기 조정 */
+  .row input[type='text'] {
+    width: 60px; /* 모바일 환경에서는 input 크기를 줄임 */
+    font-size: 0.9rem;
+  }
+}
+
+.amount_info {
+  font-size: 1rem;
+  color: #555;
+  margin-top: 10px;
+}
+
+/* 기본 스타일 */
+#result {
+  list-style-type: none;
+  padding: 0;
+}
+
+/* 각 항목 간 간격 조절 */
+.row {
+  display: flex; /* 모든 요소를 한 행에 배치 */
+  flex-wrap: wrap; /* 공간이 부족하면 줄바꿈 */
+  justify-content: space-between; /* 요소 간 공간 분배 */
+  margin-bottom: 15px;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Air Time, Time Due 강조 */
+.row div:nth-child(2),
+.row div:nth-child(3) {
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.row div:nth-child(2) {
+  color: #ff5722; /* Air Time 강조 색상 */
+}
+
+.row div:nth-child(3) {
+  color: #007bff; /* Time Due 강조 색상 */
+}
+
+/* Flight Time의 input box 스타일 */
+.row input[type='text'] {
+  width: 70px; /* input 박스의 일관된 너비 */
+  padding: 5px;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  text-align: center;
+  margin: 0 5px;
+}
+
+/* 버튼 스타일 개선 */
+.row div:nth-child(4) {
+  display: flex; /* 버튼들을 한 줄로 배치 */
+  align-items: center;
+}
+
+button {
+  padding: 5px 10px;
+  background-color: #28a745;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+  margin-right: 5px;
+}
+
+button:hover {
+  background-color: #218838;
+}
+
+/* 모바일 환경 - 버튼 크기 및 레이아웃 조정 */
+@media (max-width: 768px) {
+  .row {
+    flex-direction: column; /* 모바일에서 세로 배치 */
+    align-items: flex-start; /* 좌측 정렬 */
+  }
+
+  .row div:nth-child(2),
+  .row div:nth-child(3),
+  .row div:nth-child(4) {
+    width: 100%; /* 각 항목을 100% 너비로 설정 */
+    margin-bottom: 10px; /* 항목 간 여백 추가 */
+  }
+
+  button {
+    padding: 3px 6px;
+    font-size: 0.9rem;
+  }
+
+  /* Flight Time input box 크기 조정 */
+  .row input[type='text'] {
+    width: 60px;
+    font-size: 0.9rem;
+  }
+}
+
+.amount_info {
+  font-size: 1rem;
+  color: #555;
+  margin-top: 10px;
+}
+
+/* 기본 스타일 */
+#result {
+  list-style-type: none;
+  padding: 0;
+}
+
+/* 각 항목 간 간격 조절 */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Air Time, Time Due 강조 */
+.row div:nth-child(2),
+.row div:nth-child(3) {
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.row div:nth-child(2) {
+  color: #ff5722; /* Air Time 강조 색상 */
+}
+
+.row div:nth-child(3) {
+  color: #007bff; /* Time Due 강조 색상 */
+}
+
+/* Flight Time의 input box 스타일 */
+.row input[type='text'] {
+  width: 60px; /* input 박스의 일관된 너비 */
+  padding: 5px;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  text-align: center;
+  margin: 0 5px;
+}
+
+/* Update 및 Delete 버튼을 입력 필드 옆에 배치 */
+.row .actions {
+  display: flex;
+  align-items: center;
+}
+
+button {
+  padding: 5px 10px;
+  background-color: #28a745;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+  margin-right: 5px;
+}
+
+button:hover {
+  background-color: #218838;
+}
+
+/* 모바일 환경 - 버튼을 입력 필드 옆에 배치 */
+@media (max-width: 768px) {
+  .row {
+    flex-direction: column; /* 모바일에서는 세로 배치 */
+    align-items: flex-start; /* 좌측 정렬 */
+  }
+
+  .row .actions {
+    margin-top: 10px; /* 버튼과 입력 필드 간 여백 추가 */
+    width: 100%; /* 버튼 영역이 입력 필드와 동일한 너비를 차지하도록 설정 */
+    flex-wrap: wrap; /* 버튼이 줄바꿈 될 수 있도록 설정 */
+  }
+
+  button {
+    padding: 3px 6px;
+    font-size: 0.9rem;
+  }
+
+  /* Flight Time input box 크기 조정 */
+  .row input[type='text'] {
+    width: 50px; /* 모바일에서 입력 필드 크기 줄임 */
+    font-size: 0.9rem;
+  }
+}
+
+.amount_info {
+  font-size: 1rem;
+  color: #555;
+  margin-top: 10px;
+}

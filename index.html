@@ -9,7 +9,8 @@
       href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="style.css" />
+    <!-- <link rel="stylesheet" href="style.css" /> -->
+    <link rel="stylesheet" href="gpt_style.css" />
     <title>Decimal Calculator</title>
     <!-- <script src="app.js" defer></script> -->
     <script src="main.js" defer></script>
@@ -24,24 +25,30 @@
     <div class="divide">
       <div class="title">
         Data Input:
-        <form style="display: inline">
-          <input class="calendar" type="date" id="input_date" value="" />
-          <button type="button" id="next_day_btn">next day</button>
-          <input
-            type="number"
-            id="time_A"
-            inputmode="numeric"
-            oninput="checkInputDigits(this)"
-            value=""
-          />
-          <input
-            type="number"
-            id="time_B"
-            inputmode="numeric"
-            oninput="checkInputDigits(this)"
-            value=""
-          />
-          <button type="submit" id="exe_btn">Calculate</button>
+        <form>
+          <!-- 첫 번째 줄: 날짜 입력 + next day 버튼 -->
+          <div class="input-group">
+            <input class="calendar" type="date" id="input_date" value="" />
+            <button type="button" id="next_day_btn">next day</button>
+          </div>
+          <!-- 두 번째 줄: time_A, time_B, Calculate 버튼 -->
+          <div class="input-group">
+            <input
+              type="number"
+              id="time_A"
+              inputmode="numeric"
+              oninput="checkInputDigits(this)"
+              value=""
+            />
+            <input
+              type="number"
+              id="time_B"
+              inputmode="numeric"
+              oninput="checkInputDigits(this)"
+              value=""
+            />
+            <button type="submit" id="exe_btn">Calculate</button>
+          </div>
         </form>
       </div>
     </div>
