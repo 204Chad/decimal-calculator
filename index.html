@@ -10,49 +10,44 @@
       rel="stylesheet"
     />
     <!-- <link rel="stylesheet" href="style.css" /> -->
-    <link rel="stylesheet" href="gpt_style.css" />
+    <link rel="stylesheet" href="style.css" />
     <title>Decimal Calculator</title>
     <!-- <script src="app.js" defer></script> -->
     <script src="main.js" defer></script>
   </head>
   <body>
     <div class="divide">
-      <div class="title">
-        TTSN: <input type="text" id="TTSN" value="0" />
+      <div class="input-group">
+        TTSN <input type="text" id="TTSN" value="0" />
         <button onclick="updateTTSN()">Update</button>
       </div>
+      <form>
+        <div class="input-group">
+          Data Input
+          <input class="calendar" type="date" id="input_date" value="" />
+          <button type="button" id="next_day_btn">next day</button>
+        </div>
+        <!-- 두 번째 줄: time_A, time_B, Calculate 버튼 -->
+        <div class="input-group">
+          Time Input
+          <input
+            type="number"
+            id="time_A"
+            inputmode="numeric"
+            oninput="checkInputDigits(this)"
+            value=""
+          />
+          <input
+            type="number"
+            id="time_B"
+            inputmode="numeric"
+            oninput="checkInputDigits(this)"
+            value=""
+          />
+          <button type="submit" id="exe_btn">Calculate</button>
+        </div>
+      </form>
     </div>
-    <div class="divide">
-      <div class="title">
-        Data Input:
-        <form>
-          <!-- 첫 번째 줄: 날짜 입력 + next day 버튼 -->
-          <div class="input-group">
-            <input class="calendar" type="date" id="input_date" value="" />
-            <button type="button" id="next_day_btn">next day</button>
-          </div>
-          <!-- 두 번째 줄: time_A, time_B, Calculate 버튼 -->
-          <div class="input-group">
-            <input
-              type="number"
-              id="time_A"
-              inputmode="numeric"
-              oninput="checkInputDigits(this)"
-              value=""
-            />
-            <input
-              type="number"
-              id="time_B"
-              inputmode="numeric"
-              oninput="checkInputDigits(this)"
-              value=""
-            />
-            <button type="submit" id="exe_btn">Calculate</button>
-          </div>
-        </form>
-      </div>
-    </div>
-
     <div class="divide">
       <ul id="result"></ul>
     </div>
